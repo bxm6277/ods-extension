@@ -104,13 +104,13 @@ function validTimePeriod(time, lowerBound, upperBound, testLength) {
 function setPreviousRecord(oldRecord) {
 	console.log(oldRecord);
 	if (oldRecord != undefined && Object.keys(oldRecord).length > 0) {
-		$("select[name='class']").val(oldRecord['class']);
-		$("input[name='instructor']").val(oldRecord['instructors']);
+		$("select[name='class']").val(decodeURI(oldRecord['class']));
+		$("input[name='instructor']").val(decodeURI(oldRecord['instructors']));
 		$("input[name='originalTestDate']")
 				.val(oldRecord['original_test_date']);
 		$("input[name='originalTestTime']")
 				.val(oldRecord['original_test_time']);
-		$("#testType-" + oldRecord['test_type'].replace(" ", "_")).prop(
+		$("#testType-" + oldRecord['test_type'].replace(/ /g, "_")).prop(
 				"checked", true);
 		$("input[name='testLength']").val(oldRecord['test_duration']);
 		$("input[name='reservedTestDate']").val(oldRecord['test_date']);
@@ -127,11 +127,13 @@ function setPreviousRecord(oldRecord) {
 	}
 }
 
-function checkSelection(name, selectId, value) {
-	$("#" + name + "-" + selectId.replace(" ", "_")).prop("checked", true);
+function checkSelection(name, id, value) {
+	var selectId = decodeURI(id);
+	console.log("#" + name + "-" + selectId.replace(/ /g, "_"));
+	$("#" + name + "-" + selectId.replace(/ /g, "_")).prop("checked", true);
 	if (value.length > 0) {
 		//Refill the fields and recover the encoded content
-		$("input[for='" + name + "-" + selectId.replace(" ", "_") + "']").val(decodeURI(value));
+		$("input[for='" + name + "-" + selectId.replace(/ /g, "_") + "']").val(decodeURI(value));
 	}
 }
 

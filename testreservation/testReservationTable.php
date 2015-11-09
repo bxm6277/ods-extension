@@ -1,5 +1,6 @@
 <?php
-require_once ('../config.php');
+echo $_SERVER['DOCUMENT_ROOT'];
+require_once ($_SERVER['DOCUMENT_ROOT'].'/config.php');
 require_once ('./testReservationUtil.php');
 require_once ('./resources/TestReservationInfo.php');
 // require_login();
@@ -15,8 +16,6 @@ $PAGE->set_heading ( "Test Reservation Table" );
 $PAGE->set_url ( $CFG->wwwroot . '/testreservation/testReservationTable.php' );
 try {
 	$transaction = $DB->start_delegated_transaction ();
-	
-	verifyBasicDatabaseTableSetup();
 	
 		if (array_key_exists ( "submitType", $_POST )) {
 			$submitType = $_POST ['submitType'];
@@ -65,11 +64,11 @@ echo $OUTPUT->header ();
 ?>
 <link rel="stylesheet" type="text/css"
 	href="<?php echo $CFG->wwwroot?>/lib/jquery/ui-1.10.4/css/base/jquery-ui.min.css">
-<!-- <link rel="stylesheet" type="text/css" 
-	href="<?php //echo $CFG->wwwroot?>/testreservation/css/tablesorter/style.css">-->
 <link rel="stylesheet" type="text/css"
-	href="<?php //echo $CFG->wwwroot?>/testreservation/css/jquery.dataTables.min.css">		
-<table id="testReservationRecordTable" class= "tablesorter">
+	href="css/jquery.dataTables.min.css">	
+	<link rel="stylesheet" type="text/css"
+	href="css/dataTables.jqueryui.min.css">		
+<table id="testReservationRecordTable" class= "dataTable">
 	<thead>
 		<!-- Date | Subject | Start time| Student CLID | Name | Duration | Finish time | Preference| Accommodation | Ret type -->
 		<tr>
@@ -81,7 +80,6 @@ echo $OUTPUT->header ();
 			<th>Name</th><?php }?>
 			<th>Duration</th>
 			<th>Finish time</th>
-<!-- 			<th>Preference</th> -->
 			<th>Accommodation</th>
 			<th>Ret type</th>
 			<th>Operations</th>
@@ -176,13 +174,14 @@ echo $OUTPUT->header ();
 	src="<?php echo $CFG->wwwroot?>/lib/jquery/jquery-1.11.0.min.js"></script>
 <script type="text/javascript"
 	src="<?php echo $CFG->wwwroot?>/lib/jquery/ui-1.10.4/jquery-ui.min.js"></script>
-<!-- <script type="text/javascript" 
-	src="<?php echo $CFG->wwwroot?>/testreservation/js/jquery.tablesorter.min.js"></script>-->
-<script type="text/javascript"
-	src="<?php echo $CFG->wwwroot?>/testreservation/js/jquery.dataTables.min.js"></script>
 
 <script type="text/javascript"
-	src="<?php echo $CFG->wwwroot?>/testreservation/js/testReservationTable.js"></script>
+	src="js/jquery.dataTables.min.js"></script>
+<script type="text/javascript"
+	src="js/dataTables.jqueryui.min.js"></script>
+
+<script type="text/javascript"
+	src="js/testReservationTable.js"></script>
 <script type="text/javascript">
 
 $(document).ready(function(){
@@ -191,7 +190,7 @@ $(".button").button();
 // $('.delete').button( "option", "icons", 'ui-icon-trash');
 $(".dialog").dialog({"autoOpen":false});
 $( "#warningDialog" ).on( "dialogclose", function( event, ui ) {$("#warningDialog p").text("");} );
-$('#testReservationRecordTable').dataTable();
+$('.dataTable').dataTable();
 });
 
 </script>

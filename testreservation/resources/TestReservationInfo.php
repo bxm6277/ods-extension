@@ -20,7 +20,7 @@ class TestReservationInfo {
 	 * Private ctor so nobody else can instance it
 	 */
 	private function __construct() {
-		verifyBasicDatabaseTableSetup();
+		$this->verifyBasicDatabaseTableSetup();
 	}
 	function verifyBasicDatabaseTableSetup() {
 		global $DB;

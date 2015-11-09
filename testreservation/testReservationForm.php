@@ -1,11 +1,11 @@
 <?php
-require_once ('../config.php');
+require_once ($_SERVER ['DOCUMENT_ROOT'] . '/config.php');
 require_once ('./testReservationUtil.php');
 require_once ('./resources/TestReservationInfo.php');
 // require_login();
 // Need group verification
-$testReservationInfo = TestReservationInfo::Instance();
-$identity = verifyODSIdentity ($testReservationInfo);
+$testReservationInfo = TestReservationInfo::Instance ();
+$identity = verifyODSIdentity ( $testReservationInfo );
 
 $PAGE->set_context ( get_system_context () );
 $PAGE->set_pagelayout ( 'standard' );
@@ -30,7 +30,7 @@ if (array_key_exists ( "submitType", $_POST )) {
 	}
 }
 // When user is staff and doing update
-if (in_array("staff", $identity) && (array_key_exists ( "submitType", $_POST ) && $_POST ['submitType'] == "update")) {
+if (in_array ( "staff", $identity ) && (array_key_exists ( "submitType", $_POST ) && $_POST ['submitType'] == "update")) {
 	// register_id not null
 	$userId = $availableRecord ['register_id'];
 } else {
@@ -38,7 +38,7 @@ if (in_array("staff", $identity) && (array_key_exists ( "submitType", $_POST ) &
 }
 
 $selectedCourses = enrol_get_all_users_courses ( $userId );
-$courseTeacherMap = obtainCourseTeacherMap($userId, $selectedCourses);
+$courseTeacherMap = obtainCourseTeacherMap ( $userId, $selectedCourses );
 
 $courseTeacherMapJson = json_encode ( $courseTeacherMap );
 echo $OUTPUT->header ();
@@ -46,7 +46,7 @@ echo $OUTPUT->header ();
 <link rel="stylesheet" type="text/css"
 	href="<?php echo $CFG->wwwroot?>/lib/jquery/ui-1.10.4/css/base/jquery-ui.min.css">
 <link rel="stylesheet" type="text/css"
-	href="<?php echo $CFG->wwwroot?>/testreservation/css/testReservationForm.css">
+	href="css/testReservationForm.css">
 
 <div>
 	<form id="testReservationForm" action="testReservationTable.php"
@@ -127,17 +127,17 @@ echo $OUTPUT->header ();
 					id="returningInstructions-Hand_Deliver_to_department"
 					name="returningInstructions[]" value="Hand Deliver to department"><label
 					for="returningInstructions-Hand_Deliver_to_department">Hand Deliver
-						to department</label> <input type="radio"
+						to department</label> <br> <input type="radio"
 					id="returningInstructions-Will_pick_up"
 					name="returningInstructions[]" value="Will pick up"><label
-					for="returningInstructions-Will_pick_up">Will pick up</label> <input
-					type="radio" id="returningInstructions-Call_for_pick_up"
+					for="returningInstructions-Will_pick_up">Will pick up</label> <br>
+					<input type="radio" id="returningInstructions-Call_for_pick_up"
 					name="returningInstructions[]" value="Call for pick up"
 					class="optionWithTextField"><label
 					for="returningInstructions-Call_for_pick_up">Call for pick up</label><input
 					type="text" class="optionTextField"
 					for="returningInstructions-Call_for_pick_up"
-					placeholer="Phone Number"> <input type="radio"
+					placeholer="Phone Number"> <br> <input type="radio"
 					id="returningInstructions-Other" name="returningInstructions[]"
 					value="Other" class="optionWithTextField"><label
 					for="returningInstructions-Other">Other</label><input type="text"
@@ -147,34 +147,39 @@ echo $OUTPUT->header ();
 				<td>Testing Instructions:</td>
 				<td><input type="checkbox" id="testingInstructions-Extra_Paper"
 					name="testingInstructions[]" value="Extra Paper"><label
-					for="testingInstructions-Extra_Paper">Extra Paper</label> <input
+					for="testingInstructions-Extra_Paper">Extra Paper</label> <br> <input
 					type="checkbox" id="testingInstructions-Statistical_Tables"
 					name="testingInstructions[]" value="Statistical Tables"><label
-					for="testingInstructions-Statistical_Tables">Statistical Tables</label>
-					<input type="checkbox" id="testingInstructions-Open_Book" value="Open Book"
-					name="testingInstructions[]" class="optionWithTextField"><label
+					for="testingInstructions-Statistical_Tables">Statistical Tables</label><br>
+					<input type="checkbox" id="testingInstructions-Open_Book"
+					value="Open Book" name="testingInstructions[]"
+					class="optionWithTextField"><label
 					for="testingInstructions-Open_Book">Open Book</label><input
 					type="text" class="optionTextField"
-					for="testingInstructions-Open_Book"><input type="checkbox"
-					id="testingInstructions-Open_Notes" name="testingInstructions[]" value="Open Notes"
-					class="optionWithTextField"><label for="testingInstructions-Open_Notes">Open Notes</label><input
-					type="text" class="optionTextField" for="testingInstructions-Open_Notes"><input
-					type="checkbox" id="testingInstructions-Calculator" value="Calculator"
+					for="testingInstructions-Open_Book"><br> <input type="checkbox"
+					id="testingInstructions-Open_Notes" name="testingInstructions[]"
+					value="Open Notes" class="optionWithTextField"><label
+					for="testingInstructions-Open_Notes">Open Notes</label><input
+					type="text" class="optionTextField"
+					for="testingInstructions-Open_Notes"><br> <input type="checkbox"
+					id="testingInstructions-Calculator" value="Calculator"
 					name="testingInstructions[]" class="optionWithTextField"><label
-					for="testingInstructions-Calculator">Calculator</label><input type="text"
-					class="optionTextField" for="testingInstructions-Calculator"><input
-					type="checkbox" id="testingInstructions-Other"
-					name="testingInstructions[]" class="optionWithTextField"><label
-					for="testingInstructions-Other">Other</label><input type="text"
-					class="optionTextField" for="testingInstructions-Other"></td>
+					for="testingInstructions-Calculator">Calculator</label><input
+					type="text" class="optionTextField"
+					for="testingInstructions-Calculator"><br> <input type="checkbox"
+					id="testingInstructions-Other" name="testingInstructions[]"
+					class="optionWithTextField"><label for="testingInstructions-Other">Other</label><input
+					type="text" class="optionTextField" for="testingInstructions-Other"></td>
 			</tr>
 			<?php }?>
 			<tr>
 				<td><input type="hidden" name="submitType"
 					value='<?php echo (array_key_exists('submitType', $_POST)?$_POST['submitType']:'new')?>'>
-					<input type="hidden" name="targetReservationId" value= '<?php if($availableRecord != NULL){ echo $availableRecord['id'];}?>'></td>
-					<input type="hidden" name="userId" value= '<?php if($userId != NULL){ echo $userId;}?>'></td>
-	
+					<input type="hidden" name="targetReservationId"
+					value='<?php if($availableRecord != NULL){ echo $availableRecord['id'];}?>'>
+					<input type="hidden" name="userId"
+					value='<?php if($userId != NULL){ echo $userId;}?>'></td>
+
 			</tr>
 		</table>
 	</form>
@@ -236,9 +241,9 @@ echo $OUTPUT->header ();
 <script type="text/javascript"
 	src="<?php echo $CFG->wwwroot?>/lib/jquery/ui-1.10.4/jquery-ui.min.js"></script>
 <script type="text/javascript"
-	src="<?php echo $CFG->wwwroot?>/testreservation/js/jquery.inputmask.bundle.min.js"></script>
+	src="js/jquery.inputmask.bundle.min.js"></script>
 <script type="text/javascript"
-	src="<?php echo $CFG->wwwroot?>/testreservation/js/testReservationForm.js"></script>
+	src="js/testReservationForm.js"></script>
 
 <script>
 	//which one is required

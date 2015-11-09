@@ -1,6 +1,6 @@
 <!DOCTYPE HTML>
 <?php
-require_once ('../config.php');
+require_once ($_SERVER['DOCUMENT_ROOT'].'/config.php');
 require_once ('./testReservationUtil.php');
 require_once ('./resources/TestReservationInfo.php');
 // require_login();
@@ -25,7 +25,7 @@ $formatedRecordArray = formatRecordArray ( $recordArray, $identity );
 <head>
 <title>Test Reservation Report</title>
 <link rel="stylesheet" type="text/css"
-	href="<?php echo $CFG->wwwroot?>/testreservation/css/testReservationReport.css">
+	href="css/testReservationReport.css">
 
 </head>
 <body>
